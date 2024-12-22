@@ -108,6 +108,11 @@
             }, 1000); // Задержка на время анимации
         });
     </script>
+    <script>
+        let tg = window.Telegram.WebApp
+        let data = {name:'123'}
+        tg.sendData(JSON.stringify(data));
+    </script>
     
 </body>
 </html>
