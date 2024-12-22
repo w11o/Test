@@ -110,9 +110,7 @@
     </script>
     <script>
         let tg = window.Telegram.WebApp;
-        console.log(tg.initData); // Получаем данные о пользователе
-        tg.onEvent('mainButtonClicked', function() {
-        tg.sendData("Ваши данные для отправки");});
+        tg.sendData("Ваши данные для отправки");
 
 
     </script>
