@@ -128,6 +128,7 @@
     </style>
 </head>
 <body>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <div class="container">
         <div>
             <div class="hexagram" id="hexagram"></div>
@@ -175,6 +176,17 @@
                 }, 600); // Длительность анимации совпадает с анимацией @keyframes flip
             } else {
                 alert('Гексаграмма уже завершена!');
+                // вот отсюда идет код который нужно доработать
+                let tg = window.Telegram.WebApp;
+                const data = {
+                userText: userInput.value,
+                hexagramName: hexagramName.textContent,
+                lineValues: lines
+                };
+
+                tg.sendData(data);
+                // тут заканчивается
+                
             }
         });
 
@@ -186,22 +198,12 @@
             lines = [];
             userInput.value = '';
         });
+
+        
     </script>
 
      
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-        <script>
-        // вот отсюда идет код который нужно доработать
-        let tg = window.Telegram.WebApp;
-        const data = {
-            userText: userInput.value,
-            hexagramName: hexagramName.textContent,
-            lineValues: lines
-        };
 
-        tg.sendData(data);
-
-    </script>
 </body>
 </html>
 
