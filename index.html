@@ -185,8 +185,7 @@
                 let data = {
                 userText: userInput.value,
                 hexagramName: hexagramName.textContent,
-                lineValues: lines,
-                UserData: tg.initDataUnsafe.user.first_name
+                lineValues: lines
                 };
 
                 tg.sendData(JSON.stringify(data));
