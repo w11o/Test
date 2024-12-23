@@ -178,7 +178,7 @@
                 alert('Гексаграмма уже завершена!');
                 // вот отсюда идет код который нужно доработать
                 let tg = window.Telegram.WebApp;
-                const data = {
+                let data = {
                 userText: userInput.value,
                 hexagramName: hexagramName.textContent,
                 lineValues: lines,
@@ -186,7 +186,7 @@
                 };
 
                 tg.sendData(JSON.stringify(data));
-                tg.close();
+                tg.close(); // почему-то не отправляет данные
                 // тут заканчивается
                 
             }
