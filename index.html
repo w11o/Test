@@ -1,14 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор гексаграмм</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f8ff;
+            font-family: 'Arial', sans-serif;
+        }
 
+        .container {
+            display: flex;
+            flex-direction: row;
+            gap: 40px;
+        }
+
+        .hexagram {
+            display: flex;
+            flex-direction: column-reverse; /* Линии добавляются снизу вверх */
+            margin-bottom: 20px;
+        }
+
+        .line {
+            width: 200px;
+            height: 20px;
+            margin: 5px 0;
+            opacity: 0;
+            transform: scaleX(0);
+            animation: drawLine 0.5s forwards;
+        }
+
+        @keyframes drawLine {
+            to {
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+
+        .solid {
+            background-color: black;
+        }
+
+        .broken {
+            background: linear-gradient(to right, black 45%, white 45%, white 55%, black 55%);
+        }
+
+        .coin {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            background-color: #4caf50;
+            animation: none;
+        }
+
+        @keyframes flip {
+            0% { transform: rotateY(0); }
+            50% { transform: rotateY(180deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .coin.flip {
+            animation: flip 0.6s;
+        }
+
+        .coin.heads {
+            background-color: #4caf50; /* Орёл */
+        }
+
+        .coin.tails {
+            background-color: #f44336; /* Решка */
+        }
+
+        .name {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        .reset {
+            margin-top: 10px;
+            background-color: #d32f2f;
+        }
+
+        .reset:hover {
+            background-color: #b71c1c;
+        }
+
+        textarea {
+            width: 300px;
+            height: 100px;
+            margin-top: 20px;
+            margin-bottom: 10px; /* Небольшое расстояние под текстовым полем */
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+    </style>
 </head>
 <body>
-    <button id="sendDataButton">Отправить данные 1</button>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script>
-        let tg = window.Telegram.WebApp;
+    <div class="container">
+        <div>
+            <div class="hexagram" id="hexagram"></div>
+            <div class="name" id="hexagramName">Название гексаграммы</div>
+        </div>
+        <div>
+            <div class="coin" id="coin">?</div>
+        </div>
+    </div>
+    <textarea id="userInput" placeholder="Введите текст, который будет использоваться для формирования гексаграммы"></textarea>
+    <button id="generateButton">Бросить монету</button>
+    <button id="resetButton" class="reset">Сбросить</button>
 
-        document.getElementById('sendDataButton').onclick = function() {
-            tg.sendData("Привет из веб-приложения");
-        };
+    <script>
+        const hexagram = document.getElementById('hexagram');
+        const generateButton = document.getElementById('generateButton');
+        const resetButton = document.getElementById('resetButton');
+        const coin = document.getElementById('coin');
+        const hexagramName = document.getElementById('hexagramName');
+        const userInput = document.getElementById('userInput');
+
+        let lines = [];
+
+        generateButton.addEventListener('click', () => {
+            if (hexagram.children.length < 6) {
+                // Анимация "броска монеты"
+                coin.classList.add('flip');
+                setTimeout(() => {
+                    // Определяем результат "броска монеты"
+                    const isSolid = Math.random() < 0.5; // 50% шанс на "Орёл" или "Решка"
+                    coin.textContent = isSolid ? 'Орёл' : 'Решка';
+                    coin.className = `coin flip ${isSolid ? 'heads' : 'tails'}`;
+
+                    // Добавляем линию
+                    const line = document.createElement('div');
+                    line.className = `line ${isSolid ? 'solid' : 'broken'}`;
+                    hexagram.appendChild(line);
+                    lines.push(isSolid ? 1 : 0);
+
+                    // Обновляем название гексаграммы
+                    hexagramName.textContent = 'Название: ' + lines.join('') + ' (' + userInput.value + ')'; // Используем пользовательский текст
+
+                    // Убираем класс flip после анимации
+                    coin.classList.remove('flip');
+                }, 600); // Длительность анимации совпадает с анимацией @keyframes flip
+            } else {
+                alert('Гексаграмма уже завершена!');
+            }
+        });
+
+        resetButton.addEventListener('click', () => {
+            hexagram.innerHTML = '';
+            coin.textContent = '?';
+            coin.className = 'coin';
+            hexagramName.textContent = 'Название гексаграммы';
+            lines = [];
+            userInput.value = '';
+        });
     </script>
 </body>
+</html>
+
