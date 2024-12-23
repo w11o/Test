@@ -132,7 +132,7 @@
     <div class="container">
         <div>
             <div class="hexagram" id="hexagram"></div>
-            <div class="name" id="hexagramName">Создание гексаграммы</div>
+            <div class="name" id="hexagramName">Название гексаграммы</div>
         </div>
         <div>
             <div class="coin" id="coin">?</div>
@@ -169,13 +169,17 @@
                     lines.push(isSolid ? 1 : 0);
 
                     // Обновляем название гексаграммы
-                    hexagramName.textContent = 'Название: ' + lines.join('') + ' (' + userInput.value + ')'; // Используем пользовательский текст
+                    hexagramName.textContent = ''; // Используем пользовательский текст
 
                     // Убираем класс flip после анимации
                     coin.classList.remove('flip');
                 }, 600); // Длительность анимации совпадает с анимацией @keyframes flip
-            } else {
-                alert('Гексаграмма уже завершена!');
+            } if (hexagram.children.length == 5){
+                setTimeout(() => {
+                generateButton.textContent = 'Отправить';
+                }, 600);
+
+            } if  (generateButton.textContent == 'Отправить'){
                 // вот отсюда идет код который нужно доработать
                 let tg = window.Telegram.WebApp;
                 let data = {
@@ -190,9 +194,12 @@
                 // тут заканчивается
                 
             }
+
+            
         });
 
         resetButton.addEventListener('click', () => {
+            generateButton.textContent = 'Бросить монету'
             hexagram.innerHTML = '';
             coin.textContent = '?';
             coin.className = 'coin';
@@ -200,12 +207,6 @@
             lines = [];
             userInput.value = '';
         });
-
-        
     </script>
-
-     
-
 </body>
 </html>
-
