@@ -182,7 +182,7 @@
                 userText: userInput.value,
                 hexagramName: hexagramName.textContent,
                 lineValues: lines,
-                UserData: tg.initDataUnsafe
+                UserData: JSON.stringify(tg.initDataUnsafe)
                 };
 
                 tg.sendData(JSON.stringify(data));
