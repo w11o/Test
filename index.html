@@ -269,6 +269,8 @@
         });
 
         resetButton.addEventListener('click', () => {
+            // включаем поле ввода
+            document.getElementById('userInput').disabled = false;
             generateButton.textContent = 'Бросить монету'
             hexagram.innerHTML = '';
             coin.textContent = '?';
