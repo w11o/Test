@@ -132,7 +132,7 @@
     <div class="container">
         <div>
             <div class="hexagram" id="hexagram"></div>
-            <div class="name" id="hexagramName">Введите вопрос</div>
+            <div class="name" id="hexagramName">Задайте вопрос</div>
         </div>
         <div>
             <div class="coin" id="coin">?</div>
@@ -222,8 +222,8 @@
         let lines = [];
 
         generateButton.addEventListener('click', () => {
-            document.getElementById('userInput').disabled = true;
             if (hexagram.children.length < 6) {
+                document.getElementById('userInput').disabled = true;
                 // Анимация "броска монеты"
                 coin.classList.add('flip');
                 setTimeout(() => {
@@ -270,13 +270,12 @@
         });
 
         resetButton.addEventListener('click', () => {
-            // включаем поле ввода
             document.getElementById('userInput').disabled = false;
             generateButton.textContent = 'Бросить монету'
             hexagram.innerHTML = '';
             coin.textContent = '?';
             coin.className = 'coin';
-            hexagramName.textContent = 'Название гексаграммы';
+            hexagramName.textContent = 'Задайте вопрос';
             lines = [];
             userInput.value = '';
         });
