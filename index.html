@@ -222,6 +222,7 @@
         let lines = [];
 
         generateButton.addEventListener('click', () => {
+            document.getElementById('userInput').disabled = true;
             if (hexagram.children.length < 6) {
                 // Анимация "броска монеты"
                 coin.classList.add('flip');
