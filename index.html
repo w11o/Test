@@ -229,14 +229,21 @@
                 setTimeout(() => {
                     // Определяем результат "броска монеты"
                     const isSolid = Math.random() < 0.5; // 50% шанс на "Орёл" или "Решка"
+
+                    const coinValue = isSolid ? 1 : 0;
                     coin.textContent = isSolid ? 'Орёл' : 'Решка';
                     coin.className = `coin flip ${isSolid ? 'heads' : 'tails'}`;
 
+                    const currentUnixTime = Math.floor(Date.now() / 1000);
+                    const userInputLength = userInput.value.length
+                    const totalSum = coinValue + userInputLength + currentUnixTime;
+                    const lineTypeClass = totalSum % 2 === 0 ? 'solid' : 'broken';
+
                     // Добавляем линию
                     const line = document.createElement('div');
-                    line.className = `line ${isSolid ? 'solid' : 'broken'}`;
+                    line.className = `line ${lineTypeClass}`;
                     hexagram.appendChild(line);
-                    lines.push(isSolid ? 1 : 0);
+                    lines.push(coinValue);
 
                     // Обновляем название гексаграммы
                     hexagramName.textContent = ''; // Используем пользовательский текст
